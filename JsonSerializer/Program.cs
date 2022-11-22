@@ -2,157 +2,98 @@
 using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
-
+using Newtonsoft.Json.Serialization;
 public class Program
 {
+        public static string ResourceType = "Simple";
+        public static string TileTitle = "Fake Tile";
+        public static string DescriptionTile = "This is a nice tile.";
+        public static string AuthorTile = "Pdawg";
+        public static string OrgTile = "Microsoft";
+        public static string ResourceURL = "https://google.com";
+        public static string PageType = "MSBand_ScrollingText";
+        public static string TileEmail = "sampleemail@microsoft.com";
+        public static int RefreshInt = 30;
+        public static string E1 = "real element 1";
+        public static string E2 = "real element 2";
+        public static string E3 = "real element 3";
+        public static string I1 = "real icon 1";
+        public static string I2 = "real icon 2";
+        public static string I3 = "real icon 3";
     public static void Main()
     {
-        var obj = new
-        {
-            manifestVersion = 1,
-            name = "SEA & JFK weather",
-            description = "This tile shows the current weather at SEA and JFK",
-            version = 1,
-            versionString = "1",
-            author = "Microsoft Band Team",
-            organization = "MS Health",
-            contactEmail = "healthms@microsoft.com",
-            tileIcon = new Dictionary<int, string>
+        var model = new ObjectModel
             {
-                [46] = "icons/tileIcon.png"
-            },
-            badgeIcon = new Dictionary<int, string>
-            {
-                [24] = "icons/badgeIcon.png",
-            },
-            icons = new
-            {
-                SEAIcon = "icons/SEA.png",
-                JFKIcon = "icons/JFK.png",
-            },
-            refreshIntervalMinutes = 30,
-            resources = new dynamic[] {
-                new {
-                    url = "http://services.faa.gov/airport/status/SEA?format=json",
-                    style = "Simple",
-                    content = new
-                    {
-                        SEAWeather = "weather.weather",
-                        SEAvisibility = "weather.visibility"
-                    },
+                ManifestVersion = 1,
+                Name = TileTitle,
+                Description = DescriptionTile,
+                Version = 1,
+                VersionString = "1",
+                Author = AuthorTile,
+                Organization = OrgTile,
+                ContactEmail = TileEmail,
+                TileIcon = new Dictionary<int, string>
+                {
+                    [46] = "icons/tileIcon.png"
                 },
-               new {
-                    url = "http://services.faa.gov/airport/status/JFK?format=json",
-                    style = "Simple",
-                    content = new
-                    {
-                        JFKWeather = "weather.weather",
-                        JFKvisibility = "weather.visibility"
-                    },
+                BadgeIcon = new Dictionary<int, string>
+                {
+                    [24] = "icons/badgeIcon.png"
                 },
-            },
-            pages = new dynamic[]
-            {
-                new {
-                    layout = "MSBand_NoScrollingText",
-                    condition = "true",
-                    textBindings = new []
+                RefreshIntervalMinutes = RefreshInt,
+                Resources = new List<WebTileResource>
+                {
+                    new WebTileResource
                     {
-                        new
+                        Url = ResourceURL,
+                        Style = ResourceType,
+                        Content = new Dictionary<string, string>
                         {
-                            elementId = "1",
-                            value = "Airport Weather",
-                        },
-                        new
-                        {
-                            elementId = "2",
-                            value = "SEA: {{SEAweather}}",
-                        },
-                        new
-                        {
-                            elementId = "3",
-                            value = "JFK: {{JFKweather}}",
-                        },
+                            ["rssTitle"] = "title",
+                            ["rssDesc"] = "description",
+                            ["rssPubDate"] = "pubDate"
+                        }
                     }
                 },
-                new {
-                    layout = "MSBand_SingleMetricWithSecondary",
-                    condition = "true",
-                    iconBindings = new []
+                Pages = new List<PagesResource>
+                {
+                    new PagesResource
                     {
-                        new
+                        Layout = PageType,
+                        Condition = "true",
+                        TextBindings = new List<TextBinding>
                         {
-                            elementId = "21",
-                            conditions = new[]
+                            new TextBinding
                             {
-                                new
-                                {
-                                    condition = "true",
-                                    icon = "SEAIcon",
-                                },
+                                ElementId = E1,
+                                Value = "placeholder 1"
                             },
-                        },
-                    },
-                    textBindings = new []
-                    {
-                        new
-                        {
-                            elementId = "11",
-                            value = "SEA",
-                        },
-                        new
-                        {
-                            elementId = "12",
-                            value = "Visibility",
-                        },
-                        new
-                        {
-                            elementId = "22",
-                            value = "{{SEAvisibility}}",
-                        },
-                    },
-                },
-                  new {
-                    layout = "MSBand_SingleMetricWithSecondary",
-                    condition = "true",
-                    iconBindings = new []
-                    {
-                        new
-                        {
-                            elementId = "21",
-                            conditions = new[]
+                            new TextBinding
                             {
-                                new
-                                {
-                                    condition = "true",
-                                    icon = "JFKIcon",
-                                },
+                                ElementId = E2,
+                                Value = "placeholder 2"
                             },
-                        },
-                    },
-                    textBindings = new []
-                    {
-                        new
-                        {
-                            elementId = "11",
-                            value = "JFK",
-                        },
-                        new
-                        {
-                            elementId = "12",
-                            value = "Visibility",
-                        },
-                        new
-                        {
-                            elementId = "22",
-                            value = "{{JFKvisibility}}",
-                        },
-                    },
-                  },
-                },
-        };
+                            new TextBinding
+                            {
+                                ElementId = E3,
+                                Value = "placeholder 3"
+                            }
+                        }
+                    }
+                }
+            };
 
-        var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-        Console.WriteLine(json);
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
+            var json = JsonConvert.SerializeObject(model, Formatting.Indented, new JsonSerializerSettings
+            {
+                ContractResolver = contractResolver,
+                NullValueHandling = NullValueHandling.Ignore
+            });
+
+            Console.WriteLine(json);
     }
 }
