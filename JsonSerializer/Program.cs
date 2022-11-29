@@ -20,9 +20,16 @@ public class Program
         public static string I1 = "real icon 1";
         public static string I2 = "real icon 2";
         public static string I3 = "real icon 3";
+        public static string IN1 = "true";
+        public static string IN2 = "true";
+        public static string IN3 = "true";
+        public static string EV1 = "some_binding";
+        public static string EV2 = "{{description}}";
+        public static string EV3 = "Test";
+
     public static void Main()
     {
-        var model = new ObjectModel
+         var model = new ObjectModel
             {
                 ManifestVersion = 1,
                 Name = TileTitle,
@@ -39,6 +46,10 @@ public class Program
                 BadgeIcon = new Dictionary<int, string>
                 {
                     [24] = "icons/badgeIcon.png"
+                },
+                Icons = new Dictionary<string, string>
+                {
+                    ["iconTest"] = "newIcon1.png"
                 },
                 RefreshIntervalMinutes = RefreshInt,
                 Resources = new List<WebTileResource>
@@ -61,27 +72,67 @@ public class Program
                     {
                         Layout = PageType,
                         Condition = "true",
+                        IconBindings = new List<IconBinding>
+                        {
+                            new IconBinding
+                            {
+                                ElementId = I1,
+                                Conditions = new List<ConditionClass>
+                                {
+                                    new ConditionClass
+                                    {
+                                        Condition = IN1,
+                                        Icon = I1
+                                    }
+                                }
+                            },
+                            new IconBinding
+                            {
+                                ElementId = I2,
+                                Conditions = new List<ConditionClass>
+                                {
+                                    new ConditionClass
+                                    {
+                                        Condition = IN2,
+                                        Icon = I2
+                                    }
+                                }
+                            },
+                            new IconBinding
+                            {
+                                ElementId = I3,
+                                Conditions = new List<ConditionClass>
+                                {
+                                    new ConditionClass
+                                    {
+                                        Condition = IN3,
+                                        Icon = I3
+                                    }
+                                }
+                            },
+                        },
                         TextBindings = new List<TextBinding>
                         {
                             new TextBinding
                             {
                                 ElementId = E1,
-                                Value = "placeholder 1"
+                                Value = EV1
                             },
                             new TextBinding
                             {
                                 ElementId = E2,
-                                Value = "placeholder 2"
+                                Value = EV2
                             },
                             new TextBinding
                             {
                                 ElementId = E3,
-                                Value = "placeholder 3"
+                                Value = EV3
                             }
                         }
                     }
                 }
             };
+            model.Icons.Add("testing", "fileName");
 
             DefaultContractResolver contractResolver = new DefaultContractResolver
             {
