@@ -27,8 +27,11 @@ public class Program
         public static string EV2 = "{{description}}";
         public static string EV3 = "Test";
 
+        public static string[] StrArry;
+
     public static void Main()
     {
+        StrArry = new string[] {"Hey", "Test2", "Test3"};
          var model = new ObjectModel
             {
                 ManifestVersion = 1,
@@ -146,5 +149,10 @@ public class Program
             });
 
             Console.WriteLine(json);
+
+            for (int i = 0; i < StrArry.Length; i++ )
+            {
+                Console.WriteLine(StrArry[i]);
+            }
+        }
     }
-}
