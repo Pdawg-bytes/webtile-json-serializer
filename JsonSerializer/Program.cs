@@ -26,12 +26,14 @@ public class Program
         public static string EV1 = "some_binding";
         public static string EV2 = "{{description}}";
         public static string EV3 = "Test";
-
         public static string[] StrArry;
+        public static string[] CtArry;
 
     public static void Main()
     {
-        StrArry = new string[] {"Hey", "Test2", "Test3"};
+        //StrArry = new string[] {"Hey", "Test2", "Test3"};
+        //CtArry = new string [] {"Hi.png", "Test2.png", "Test3.png"};
+        
          var model = new ObjectModel
             {
                 ManifestVersion = 1,
@@ -135,7 +137,18 @@ public class Program
                     }
                 }
             };
-            model.Icons.Add("testing", "fileName");
+
+            if (StrArry != null && CtArry != null)
+            {
+                for (int i = 0; i < StrArry.Length; i++)
+                {
+                    model.Icons.Add(StrArry[i], CtArry[i]);
+                }
+            }
+            else
+            {
+                model.Icons = null;
+            }
 
             DefaultContractResolver contractResolver = new DefaultContractResolver
             {
@@ -150,9 +163,5 @@ public class Program
 
             Console.WriteLine(json);
 
-            for (int i = 0; i < StrArry.Length; i++ )
-            {
-                Console.WriteLine(StrArry[i]);
-            }
         }
     }
