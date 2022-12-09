@@ -152,6 +152,8 @@ public class Program
             }
 
             // I have been trying to figure stuff out here, but nothing worked so I deleted it.
+            // This isn't valid code, but here's an idea of what I need to do: model.Pages.PagesResource.IconBindings = null;
+            // Said code above does not work as Pages is a type and does not allow access of the List<T>s inside of it.
 
             // Serializer settings
             DefaultContractResolver contractResolver = new DefaultContractResolver
