@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 public class Program
 {
+    // Inits variables
         public static string ResourceType = "Simple";
         public static string TileTitle = "Fake Tile";
         public static string DescriptionTile = "This is a nice tile.";
@@ -31,9 +32,7 @@ public class Program
 
     public static void Main()
     {
-        //StrArry = new string[] {"Hey", "Test2", "Test3"};
-        //CtArry = new string [] {"Hi.png", "Test2.png", "Test3.png"};
-        
+        // Creates variable from ObjectModel class
          var model = new ObjectModel
             {
                 ManifestVersion = 1,
@@ -54,7 +53,7 @@ public class Program
                 },
                 Icons = new Dictionary<string, string>
                 {
-                    ["iconTest"] = "newIcon1.png"
+                    ["iconPH"] = "placeholder.png"
                 },
                 RefreshIntervalMinutes = RefreshInt,
                 Resources = new List<WebTileResource>
@@ -77,6 +76,7 @@ public class Program
                     {
                         Layout = PageType,
                         Condition = "true",
+                        // I need to set this entire thing to null! I don't know how to access it from outside the var.
                         IconBindings = new List<IconBinding>
                         {
                             new IconBinding
@@ -138,6 +138,7 @@ public class Program
                 }
             };
 
+            // Handles icons stuff, I finished this already :)
             if (StrArry != null && CtArry != null)
             {
                 for (int i = 0; i < StrArry.Length; i++)
@@ -150,6 +151,9 @@ public class Program
                 model.Icons = null;
             }
 
+            // I have been trying to figure stuff out here, but nothing worked so I deleted it.
+
+            // Serializer settings
             DefaultContractResolver contractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new CamelCaseNamingStrategy()
@@ -162,6 +166,5 @@ public class Program
             });
 
             Console.WriteLine(json);
-
         }
     }
